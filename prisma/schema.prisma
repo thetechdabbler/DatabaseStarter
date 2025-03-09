@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+//Product:
+//id: A unique identifier for each product. (primary key)
+
+// name: The name of the product. (a String)
+
+// price: The price of the product. (a Float)
+
+// description: A description of the product. (a String)
+
+// category: The category of the product. (a String)
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  description String
+  category String
+  reviews Review[]
+  images Image[]
+}
+
+// Review:
+// id: A unique identifier for each review. (primary key)
+
+// name: The name of the reviewer. (a String)
+
+// rating: The rating given by the reviewer. (an Integer)
+
+// content: The content of the review. (a String)
+
+model Review {
+  id Int @id @default(autoincrement())
+  name String
+  rating Int
+  content String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+}
+
+// Image:
+// id: A unique identifier for each image. (primary key)
+
+// url: The URL of the image. (a String)
+
+model Image {
+  id Int @id @default(autoincrement())
+  url String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+}
+
+// Connecting Entities
+// Now, let's determine the relationships between the entities:
+
+// product can have multiple reviews, and a review belongs to a single product.
+
+// This is a one-to-many relationship between Product and Review.
+// product can have multiple images, and an image belongs to a single product.
+
+// This is a one-to-many relationship between Product and Image.
+// These relationships can be represented using the @relation attribute in Prisma.

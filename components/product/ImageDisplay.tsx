@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export default function ImageDisplay() {
+export default function ImageDisplay({images}: {images: string[]}) {
   return (
     <div className="relative w-full">
       <Carousel className="h-fit">
@@ -27,6 +27,17 @@ export default function ImageDisplay() {
             />
           </svg>
         </CarouselPrevious>
+        <CarouselContent>
+          {images.map((image, index) => (
+            <CarouselItem key={index}>
+              <img
+                src={image}
+                alt="product"
+                className="w-full h-full object-cover" 
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
         <CarouselContent>
           <CarouselItem>
             <img
